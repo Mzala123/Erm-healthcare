@@ -1,7 +1,10 @@
 function Register() {
     return (
-        <div className="">
-
+        <div className="flex">
+            <div className>
+                <div>image</div>
+                <div>form</div>
+            </div>
         </div>
     )
 }
