@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'Martian';
+    src: url('fonts/Martian_Mono/static/MartianMono-Regular.ttf')
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('fonts/poppins/Poppins-Regular.otf')
+}
