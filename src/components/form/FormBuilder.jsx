@@ -44,6 +44,17 @@ function FormBuilder({formFields=[]}) {
                                          type={field.type}
                                      />
                                  </div>
+                             case "password":
+                                 return <div key={field.name}>
+                                     <InputField
+                                         name={field.name}
+                                         onChange={handleChange}
+                                         value={field.value}
+                                         label={field.label}
+                                         required={field.required}
+                                         type={field.type}
+                                     />
+                                 </div>
 
                              default: return "Invalid field type " + field.type
                          }

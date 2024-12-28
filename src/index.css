@@ -11,3 +11,9 @@
     font-family: 'Poppins';
     src: url('fonts/poppins/Poppins-Regular.otf')
 }
+
+*{
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins';
+}
