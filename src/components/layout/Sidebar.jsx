@@ -8,20 +8,21 @@ function Sidebar({handleCloseMenu, isOpen}) {
 
 
     return (
-        <div className={`bg-white border-r-2 border-slate-200 min-w-72 w-72 h-screen fixed z-20 transition-all shadow-md ${isOpen ? "left-0" : "-left-72"} lg:left-0 lg:shadow-none`}>
-            <div className="flex justify-between items-center h-16 pl-3">
-                <div>
+        <div className={`bg-white  min-w-72 w-72 h-screen fixed z-20 transition-all shadow-md lg:border-r-2 lg:border-slate-200 ${isOpen ? "left-0" : "-left-72"} lg:left-0 lg:shadow-none`}>
+            <div className="flex justify-between items-center h-16 pl-3 border-b-2 border-slate-200 ">
+                <div className="font-Martian">
                     ERM System
                 </div>
                 <div>
                    <PanelLeft onClick={handleCloseMenu} className="cursor-pointer -mr-[0.5px] lg:hidden "/>
                 </div>
             </div>
-            <div className="px-3 flex flex-col gap-2 text-sm">
+            <div className="px-3 flex flex-col gap-2 text-sm mt-3">
                 {
                  menuItems.map((menuItem) => (
                      // <div key={menuItem.title} className="flex">
-                         <Link key={menuItem.title}  className={`flex gap-2 items-center`}  to={`/${menuItem.name}`} ><span>{menuItem.icon}</span>{menuItem.title}</Link>
+                         <Link key={menuItem.title}  className={`flex gap-4 items-center p-2 hover:text-white hover:rounded-lg hover:border-blue-700 hover:bg-blue-500`}
+                               to={`/layout/${menuItem.name}`} ><span>{menuItem.icon}</span>{menuItem.title}</Link>
                      // </div>
                  ))
                 }

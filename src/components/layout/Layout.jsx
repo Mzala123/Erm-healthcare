@@ -30,7 +30,7 @@ function Layout() {
                 value:"",
                 required:true,
                 type:"text",
-                width: 4,
+                width: 6,
                 placeholder:"Username",
                 label:"Username",
             },
@@ -51,7 +51,6 @@ function Layout() {
 
 
     useEffect(() => {
-        console.log(isOpen)
         if(isOpen){
             document.addEventListener("mousedown", handleClickAway);
         }else{
@@ -73,9 +72,7 @@ function Layout() {
            <div className="w-full">
                <Appbar handleOpenMenu={handleToggleMenu}/>
                <div className="bg-slate-100 h-full p-3 transition-all relative top-16 lg:ml-72">
-                  {/*<Outlet/>*/}
-                  {/* <InputField label="Username"/>*/}
-                  {/* <Button>Add patient</Button>*/}
+
                    <FormBuilder formFields={loginForm}/>
                </div>
            </div>

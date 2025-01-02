@@ -1,4 +1,4 @@
-import {useMemo} from "react";
+import {useMemo, useState} from "react";
 import FormBuilder from "../form/FormBuilder.jsx";
 import Button from "../ui/Button.jsx";
 import {Link, useNavigate} from "react-router-dom";
@@ -6,15 +6,15 @@ import {Link, useNavigate} from "react-router-dom";
 function Login(){
 
     const navigate =  useNavigate()
-    const loginForm = useMemo(()=>{
-        return  [
+    const loginForm = useMemo(()=> [
+
             {
                 name:"username",
                 value:"",
                 required:true,
                 type:"text",
-                width: 4,
-                placeholder:"Username",
+                width: 12,
+                placeholder:"Enter your username",
                 label:"Username",
             },
             {
@@ -22,16 +22,18 @@ function Login(){
                 value:"",
                 required:true,
                 type:"password",
-                width: 4,
-                placeholder:"Password",
+                width: 12,
+                placeholder:"Enter your password",
                 label:"Password",
             }
-        ]
-    },[])
+        ],[])
 
-    function handleLogin(e){
-        e.preventDefault()
-       navigate("/layout")
+   const data =  {}
+
+    function handleLogin(dataRecord){
+        console.log(dataRecord)
+        console.log(data)
+        navigate("/layout")
     }
 
     return (
@@ -39,10 +41,10 @@ function Login(){
             <div className="flex gap-4 flex-col p-4 rounded-md w-96">
                 <h1 className="text-lg font-Martian font-semibold">EMR Healthcare</h1>
                 <div className="flex flex-col gap-6">
-                    <FormBuilder formFields={loginForm} />
+                    <FormBuilder formFields={loginForm} onSubmit={handleLogin} formData={data} formActionTitle={"Login"}/>
                     <Button onClick={handleLogin}>Login</Button>
                     <p className="text-sm text-center">
-                        <span>Don't have an Account? </span>
+                        <span>Dont have an Account? </span>
                         <Link to={"/register"} className={"text-blue-600 underline hover:text-blue-700"}>
                              Register
                         </Link>

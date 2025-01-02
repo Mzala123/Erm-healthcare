@@ -1,40 +1,82 @@
 import PropTypes from "prop-types";
 import {useState} from "react";
 import InputField from "./InputField.jsx";
+import Button from "../ui/Button.jsx";
 
-function FormBuilder({formFields=[]}) {
+function FormBuilder({onSubmit, formFields=[], formData={}, formActionTitle=""}) {
 
     const [fields, setFields] = useState(formFields);
-    const [formDataObj, setFormDataObj] = useState({});
+    // const [formDataObj, setFormDataObj] = useState({});
 
 
     function handleChange(e) {
        const {name, value} = e.target;
        console.log(name);
-       setFields(
-           fields.map((field )=>{
-                   setFormDataObj(
-                       {...formDataObj,
-                           [name]: e.target.value
-                       });
-               return field.name === name ? {...field, value: value} : field
-           })
-       )
+       const updatedFields = fields.map((field)=>{
+           return field.name === name ? {...field, value: value} : field
+       })
+       setFields(updatedFields)
+       // setFields(
+       //     fields.map((field )=>{
+       //             setFormDataObj(
+       //                 {...formDataObj,
+       //                     [name]: e.target.valuex
+       //                 });
+       //         return field.name === name ? {...field, value: value} : field
+       //     })
+       // )
     }
 
     function handleSubmit(e) {
         e.preventDefault();
+        formData = fields.reduce((acc, field)=>{
+            acc[field.name] = field.value;
+            return acc;
+        }, {})
+        console.log(formData)
+        onSubmit(formData);
+    }
 
+    function getSize(size){
+        switch(size){
+            case 1:
+                return "col-span-12 md:col-span-1"
+            case 2:
+                return "col-span-12 md:col-span-2"
+            case 3:
+                return "col-span-12 md:col-span-3"
+            case 4:
+                return "col-span-12 md:col-span-4"
+            case 5:
+                return "col-span-12 md:col-span-5"
+            case 6:
+                return "col-span-12 md:col-span-6"
+            case 7:
+                return "col-span-12 md:col-span-7"
+            case 8:
+                return "col-span-12 md:col-span-8"
+            case 9:
+                return "col-span-12 md:col-span-9"
+            case 10:
+                return "col-span-12 md:col-span-10"
+            case 11:
+                return "col-span-12 md:col-span-11"
+            case 12:
+                return "col-span-12 md:col-span-12"
+            default :
+                return "col-span-12"
+
+        }
     }
 
     return(
-        <div className="">
-            <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
+        <div className="container mx-auto bg-amber-200 justify-center">
+            <form className="grid grid-cols-12 gap-2" onSubmit={handleSubmit}>
                 {
                     fields.map((field) => {
-                         switch (field.type) {
+                        switch (field.type) {
                              case "text":
-                                 return <div key={field.name}>
+                                 return <div key={field.name} className={`${getSize(field.width)}`}>
                                      <InputField
                                          name={field.name}
                                          onChange={handleChange}
@@ -42,10 +84,11 @@ function FormBuilder({formFields=[]}) {
                                          label={field.label}
                                          required={field.required}
                                          type={field.type}
+                                         placeholder={field.placeholder}
                                      />
                                  </div>
                              case "password":
-                                 return <div key={field.name}>
+                                 return <div key={field.name} className={`${getSize(field.width)}`}>
                                      <InputField
                                          name={field.name}
                                          onChange={handleChange}
@@ -53,6 +96,7 @@ function FormBuilder({formFields=[]}) {
                                          label={field.label}
                                          required={field.required}
                                          type={field.type}
+                                         placeholder={field.placeholder}
                                      />
                                  </div>
 
@@ -60,13 +104,31 @@ function FormBuilder({formFields=[]}) {
                          }
                     })
                 }
+                <div className="flex col-span-12 justify-end mt-2 gap-2">
+                    <Button className={"col-span-6"}  variant="danger" type="reset">Clear</Button>
+                    <Button className={"col-span-6"}  variant="primary" type="submit">Submit</Button>
+                </div>
+
             </form>
+            {}
         </div>
     )
 }
 
 FormBuilder.propTypes = {
-    formFields: PropTypes.array
+    formFields: PropTypes.arrayOf(
+        PropTypes.shape({
+            name: PropTypes.string.isRequired,
+            type: PropTypes.string.isRequired,
+            label: PropTypes.string,
+            required: PropTypes.bool,
+            width: PropTypes.number.isRequired,
+            value: PropTypes.string,
+        })
+    ),
+    onSubmit: PropTypes.func,
+    formData: PropTypes.object,
+    formActionTitle: PropTypes.string,
 }
 
 export default FormBuilder;
