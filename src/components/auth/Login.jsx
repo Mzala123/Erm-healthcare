@@ -1,5 +1,4 @@
-import {useMemo, useState} from "react";
-import FormBuilder from "../form/FormBuilder.jsx";
+import {useState} from "react";
 import Button from "../ui/Button.jsx";
 import {Link, useNavigate} from "react-router-dom";
 import InputField from "../form/InputField.jsx";
@@ -27,7 +26,10 @@ function Login(){
     function handleLogin(){
         setIsSubmitting(true);
         console.log(loginFields)
-        // navigate("/layout")
+        if(loginFields.username && loginFields.password){
+            navigate("/layout")
+        }
+
     }
 
     return (

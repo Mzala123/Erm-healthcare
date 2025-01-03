@@ -3,6 +3,7 @@ import Layout from "../components/layout/Layout.jsx";
 import Login from "../components/auth/Login.jsx";
 import Register from "../components/auth/Register.jsx";
 import PatientList from "../components/patient/PatientList.jsx";
+import AddPatient from "../components/patient/AddPatient.jsx";
 
 const routes = createBrowserRouter(
     [
@@ -36,7 +37,7 @@ const routes = createBrowserRouter(
                 },
                 {
                     path:"patients/:id",
-                    element:""
+                    element: <AddPatient/>
                 }
 
             ]
