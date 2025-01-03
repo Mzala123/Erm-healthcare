@@ -1,10 +1,8 @@
 import Sidebar from "./Sidebar.jsx";
 import Appbar from "./Appbar.jsx";
 import {Outlet} from "react-router-dom";
-import {useEffect, useMemo, useRef, useState} from "react";
-import InputField from "../form/InputField.jsx";
-import Button from "../ui/Button.jsx";
-import FormBuilder from "../form/FormBuilder.jsx";
+import {useEffect, useRef, useState} from "react";
+
 
 function Layout() {
 
@@ -21,33 +19,6 @@ function Layout() {
             setIsOpen(false);
         }
     }
-
-
-    const loginForm = useMemo(()=>{
-      return  [
-            {
-                name:"username",
-                value:"",
-                required:true,
-                type:"text",
-                width: 6,
-                placeholder:"Username",
-                label:"Username",
-            },
-           {
-               name:"password",
-               value:"",
-               required:true,
-               type:"text",
-               width: 4,
-               placeholder:"Password",
-               label:"Password",
-           }
-        ]
-    },[])
-
-    console.log(loginForm);
-
 
 
     useEffect(() => {
@@ -72,8 +43,7 @@ function Layout() {
            <div className="w-full">
                <Appbar handleOpenMenu={handleToggleMenu}/>
                <div className="bg-slate-100 h-full p-3 transition-all relative top-16 lg:ml-72">
-
-                   <FormBuilder formFields={loginForm}/>
+                    <Outlet/>
                </div>
            </div>
 

@@ -2,46 +2,57 @@ import {useMemo, useState} from "react";
 import FormBuilder from "../form/FormBuilder.jsx";
 import Button from "../ui/Button.jsx";
 import {Link, useNavigate} from "react-router-dom";
+import InputField from "../form/InputField.jsx";
 
 function Login(){
 
     const navigate =  useNavigate()
-    const loginForm = useMemo(()=> [
 
+    const[loginFields, setLoginFields] = useState({
+        username:"",
+        password:""
+    })
+
+    const[isSubmitting, setIsSubmitting] = useState(false);
+
+    function handleChange(e){
+        setLoginFields(
             {
-                name:"username",
-                value:"",
-                required:true,
-                type:"text",
-                width: 12,
-                placeholder:"Enter your username",
-                label:"Username",
-            },
-            {
-                name:"password",
-                value:"",
-                required:true,
-                type:"password",
-                width: 12,
-                placeholder:"Enter your password",
-                label:"Password",
+                ...loginFields,
+                [e.target.name]: e.target.value
             }
-        ],[])
+        )
+    }
 
-   const data =  {}
-
-    function handleLogin(dataRecord){
-        console.log(dataRecord)
-        console.log(data)
-        navigate("/layout")
+    function handleLogin(){
+        setIsSubmitting(true);
+        console.log(loginFields)
+        // navigate("/layout")
     }
 
     return (
         <div className="bg-white h-screen flex justify-center items-center">
             <div className="flex gap-4 flex-col p-4 rounded-md w-96">
-                <h1 className="text-lg font-Martian font-semibold">EMR Healthcare</h1>
+                <h1 className="text-lg font-Martian text-center font-semibold">EMR Healthcare</h1>
                 <div className="flex flex-col gap-6">
-                    <FormBuilder formFields={loginForm} onSubmit={handleLogin} formData={data} formActionTitle={"Login"}/>
+                    <InputField
+                        value={loginFields.username}
+                        required={true} label="Username"
+                        placeholder="Enter your username"
+                        name="username"
+                        onChange={handleChange}
+                        type="text"
+                        isSubmitting={isSubmitting}
+                    />
+                    <InputField
+                        value={loginFields.password}
+                        name="password" required={true}
+                        label="Password"
+                        onChange={handleChange}
+                        placeholder="Enter your password"
+                        type="password"
+                        isSubmitting={isSubmitting}
+                    />
                     <Button onClick={handleLogin}>Login</Button>
                     <p className="text-sm text-center">
                         <span>Dont have an Account? </span>

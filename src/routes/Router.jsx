@@ -2,6 +2,7 @@ import {createBrowserRouter} from "react-router-dom";
 import Layout from "../components/layout/Layout.jsx";
 import Login from "../components/auth/Login.jsx";
 import Register from "../components/auth/Register.jsx";
+import PatientList from "../components/patient/PatientList.jsx";
 
 const routes = createBrowserRouter(
     [
@@ -31,7 +32,7 @@ const routes = createBrowserRouter(
                 },
                 {
                     path:"patients",
-                    element:""
+                    element:<PatientList/>,
                 },
                 {
                     path:"patients/:id",

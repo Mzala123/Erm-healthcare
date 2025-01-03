@@ -2,11 +2,14 @@ import PropTypes from "prop-types";
 import {useState} from "react";
 import InputField from "./InputField.jsx";
 import Button from "../ui/Button.jsx";
+import {useNavigate} from "react-router-dom";
+import {ChevronLeft} from "lucide-react";
 
-function FormBuilder({onSubmit, formFields=[], formData={}, formActionTitle=""}) {
+function FormBuilder({onSubmit, formFields=[], formData={}, formTitle=""}) {
 
     const [fields, setFields] = useState(formFields);
     // const [formDataObj, setFormDataObj] = useState({});
+    const navigate = useNavigate();
 
 
     function handleChange(e) {
@@ -70,7 +73,11 @@ function FormBuilder({onSubmit, formFields=[], formData={}, formActionTitle=""})
     }
 
     return(
-        <div className="container mx-auto bg-amber-200 justify-center">
+        <div className="container mx-auto w-[700px] justify-center mt-3">
+             <div className="flex gap-2 mb-4">
+                 <ChevronLeft className={"size-8 hover:rounded-full hover:cursor-pointer hover:bg-slate-200"} onClick={()=>navigate(-1)} />
+                 <p className="text-2xl font-Poppins_Bold">{formTitle}</p>
+             </div>
             <form className="grid grid-cols-12 gap-2" onSubmit={handleSubmit}>
                 {
                     fields.map((field) => {

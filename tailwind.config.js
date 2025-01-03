@@ -8,6 +8,7 @@ export default {
     extend: {
         fontFamily: {
             Poppins: ['Poppins'],
+            Poppins_Bold: ['Poppins-Bold'],
             Martian: ['Martian']
         }
     },

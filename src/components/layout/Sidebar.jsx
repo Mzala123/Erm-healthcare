@@ -8,8 +8,8 @@ function Sidebar({handleCloseMenu, isOpen}) {
 
 
     return (
-        <div className={`bg-white  min-w-72 w-72 h-screen fixed z-20 transition-all shadow-md lg:border-r-2 lg:border-slate-200 ${isOpen ? "left-0" : "-left-72"} lg:left-0 lg:shadow-none`}>
-            <div className="flex justify-between items-center h-16 pl-3 border-b-2 border-slate-200 ">
+        <div className={`bg-white  min-w-72 w-72 h-screen fixed z-20 transition-all shadow-md lg:border-r lg:border-slate-300 ${isOpen ? "left-0" : "-left-72"} lg:left-0 lg:shadow-none`}>
+            <div className="flex justify-between items-center h-16 pl-3 border-b border-slate-300 ">
                 <div className="font-Martian">
                     ERM System
                 </div>

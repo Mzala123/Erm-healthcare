@@ -1,10 +1,11 @@
 import PropTypes from "prop-types";
 
-function InputField({placeholder, value, onChange, name, onKeyUp, type="text", required, label}) {
+function InputField({placeholder, value, onChange, name, onKeyUp, type="text", required=false, label, isSubmitting}) {
+    const showError = isSubmitting && required && !value;
       return(
           <div className={`flex flex-col gap-1`}>
                <label htmlFor={name}>{label}</label>
-               <input className={`px-2 py-2 text-sm border-2 border-gray-600 focus:ring-2 rounded-md `}
+               <input className={`px-2 py-2 text-sm border-[1.5px] focus:ring-2 rounded-md ${showError ? "border-red-500" : "border-gray-500"} `}
                       type={type}
                       placeholder={placeholder}
                       value={value}
@@ -13,6 +14,7 @@ function InputField({placeholder, value, onChange, name, onKeyUp, type="text", r
                       onKeyUp={onKeyUp}
                       required={required}
                />
+              {showError && <span className="text-red-500 text-xs"> {label} is required</span> }
           </div>
       )
 }
@@ -27,6 +29,7 @@ InputField.propTypes = {
     required: PropTypes.bool,
     label: PropTypes.string,
     width: PropTypes.number,
+    isSubmitting: PropTypes.bool,
 }
 
 export default InputField;
