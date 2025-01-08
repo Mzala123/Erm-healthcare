@@ -1,7 +1,14 @@
 import {useMemo} from "react";
 import FormBuilder from "../form/FormBuilder.jsx";
+import {useParams} from "react-router-dom";
+import {isPrimary} from "../../lib/utils.js";
 
 function AddPatient() {
+
+    const params = useParams();
+    console.log(params.id);
+
+    const primaryKey = isPrimary(params.id)
 
     const genderOptions =  useMemo(()=>(
         [
@@ -119,14 +126,16 @@ function AddPatient() {
     ), [genderOptions, occupationOptions])
 
     function handleSubmit(formData) {
-        console.log(formData);
+      console.log("You clicked me");
+
     }
   return (
       <div>
          <FormBuilder
              formFields={patientForm}
-             formTitle="Add Patient"
+             formTitle= {`${primaryKey ? 'Edit patient' : 'Add Patient'}`}
              onSubmit={handleSubmit}
+
          />
       </div>
   )

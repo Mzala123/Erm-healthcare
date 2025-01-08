@@ -1,5 +1,6 @@
 import {PanelRight} from "lucide-react";
 import PropTypes from "prop-types";
+import { DropDown } from "../ui/DropDown.jsx";
 
 function Appbar({handleOpenMenu}){
 
@@ -8,8 +9,8 @@ function Appbar({handleOpenMenu}){
            <div>
                <PanelRight className={"cursor-pointer lg:hidden"} onClick={handleOpenMenu}/>
            </div>
-            <div>
-                dropdown
+            <div className="">
+               hie
             </div>
 
         </div>

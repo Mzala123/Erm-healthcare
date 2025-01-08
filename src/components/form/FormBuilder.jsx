@@ -7,7 +7,8 @@ import {ChevronLeft} from "lucide-react";
 import SelectField from "./SelectField.jsx";
 import TextArea from "./TextArea.jsx";
 
-function FormBuilder({onSubmit, formFields=[], formData={}, formTitle=""}) {
+
+function FormBuilder({onSubmit, formFields=[] , formTitle=""}) {
 
     const [fields, setFields] = useState(formFields.map((field)=>{
         return {
@@ -20,41 +21,62 @@ function FormBuilder({onSubmit, formFields=[], formData={}, formTitle=""}) {
     const navigate = useNavigate();
 
 
+    function validateField(field){
+        if(field.required && !field.value.trim()){
+            return `${field.name || field.label} is required`;
+        }
+
+        if(field.type === "number" && field.value.trim()){
+            if(isNaN(field.value)){
+                return `Please enter a valid number`;
+            }
+        }
+
+        if(field.type === 'email' && field.value.trim()){
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+            if(!emailRegex.test(field.value)){
+                return `Please enter a valid email address`;
+            }
+        }
+    }
+
     function handleChange(e) {
        const {name, value} = e.target;
        console.log(name);
        const updatedFields = fields.map((field)=>{
-           return field.name === name ? {...field, value: value} : field
+           return field.name === name ?
+               {...field,
+                   value: value,
+                   error: validateField({...field,value})
+               } : field
        })
        setFields(updatedFields)
-
-       // setFields(
-       //     fields.map((field )=>{
-       //             setFormDataObj(
-       //                 {...formDataObj,
-       //                     [name]: e.target.value
-       //                 });
-       //         return field.name === name ? {...field, value: value} : field
-       //     })
-       // )
     }
 
     function handleSubmit(e) {
         e.preventDefault();
-        setIsSubmitting(true)
+        const updatedFields = fields.map((field) => ({
+            ...field,
+            error: validateField(field),
+        }));
+        setFields(updatedFields);
 
-        const hasErrors = fields.some((field)=>field.value && !field.value )
-        if(hasErrors){
+        console.log("Updated fields after validation:", updatedFields);
+        const hasErrors = updatedFields.some((field) => field.error);
+        if (hasErrors) {
+            console.error("Form validation failed. Fix errors before submitting.")
             return;
         }
 
-        formData = fields.reduce((acc, field)=>{
+
+        setIsSubmitting(true)
+        const formData = fields.reduce((acc, field)=>{
             acc[field.name] = field.value;
             return acc;
         }, {})
+        console.log("Form submitted with data:", formData);
+        onSubmit(formData)
 
-        console.log(isSubmitting)
-        onSubmit(formData);
     }
 
     function handleClear(e) {
@@ -63,6 +85,7 @@ function FormBuilder({onSubmit, formFields=[], formData={}, formTitle=""}) {
             return {
                 ...field,
                 value: "",
+                error: "",
             }
         })
         setFields(clearedFields)
@@ -74,13 +97,11 @@ function FormBuilder({onSubmit, formFields=[], formData={}, formTitle=""}) {
 
 
 
-
-
     return(
-        <div className="w-[700px] justify-start mt-3 ml-4">
+        <div className="mt-3 container mx-auto w-auto lg:w-[700px] lg:mx-2">
              <div className="flex gap-2 mb-6">
                  <ChevronLeft className={"size-8 hover:rounded-full hover:cursor-pointer hover:bg-slate-200"} onClick={()=>navigate(-1)} />
-                 <p className="text-2xl font-Poppins_Bold">{formTitle}</p>
+                 <p className="text-3xl font-Poppins_Bold">{formTitle}</p>
              </div>
             <form className="grid grid-cols-12 gap-6" onSubmit={handleSubmit}>
                 {
@@ -96,7 +117,7 @@ function FormBuilder({onSubmit, formFields=[], formData={}, formTitle=""}) {
                                          required={field.required}
                                          type={field.type}
                                          placeholder={field.placeholder}
-                                         isSubmitting={isSubmitting}
+                                         error={field.error}
                                      />
                                  </div>
                              case "password":
@@ -109,9 +130,35 @@ function FormBuilder({onSubmit, formFields=[], formData={}, formTitle=""}) {
                                          required={field.required}
                                          type={field.type}
                                          placeholder={field.placeholder}
-                                         isSubmitting={isSubmitting}
+                                         error={field.error}
                                      />
                                  </div>
+                            case "email":
+                                return <div key={field.name} className={`${getSize(field.width)}`}>
+                                    <InputField
+                                        name={field.name}
+                                        onChange={handleChange}
+                                        value={field.value}
+                                        label={field.label}
+                                        required={field.required}
+                                        type={field.type}
+                                        placeholder={field.placeholder}
+                                        error={field.error}
+                                    />
+                                </div>
+                            case "number":
+                                return <div key={field.name} className={`${getSize(field.width)}`}>
+                                    <InputField
+                                        name={field.name}
+                                        onChange={handleChange}
+                                        value={field.value}
+                                        label={field.label}
+                                        required={field.required}
+                                        type={field.type}
+                                        placeholder={field.placeholder}
+                                        error={field.error}
+                                    />
+                                </div>
                             case "date":
                                 return <div key={field.name} className={`${getSize(field.width)}`}>
                                     <InputField
@@ -122,7 +169,7 @@ function FormBuilder({onSubmit, formFields=[], formData={}, formTitle=""}) {
                                         required={field.required}
                                         type={field.type}
                                         placeholder={field.placeholder}
-                                        isSubmitting={isSubmitting}
+                                        error={field.error}
                                     />
                                 </div>
                             case "select":
@@ -136,6 +183,7 @@ function FormBuilder({onSubmit, formFields=[], formData={}, formTitle=""}) {
                                   isSubmitting={isSubmitting}
                                   type={field.type}
                                   options={field.options}
+                                  error={field.error}
                                 />
                             </div>
                             case "textarea":
@@ -151,6 +199,7 @@ function FormBuilder({onSubmit, formFields=[], formData={}, formTitle=""}) {
                                         isSubmitting={isSubmitting}
                                         cols={field.cols}
                                         rows={field.rows}
+                                        error={field.error}
                                     />
                                 </div>
 

@@ -17,7 +17,7 @@ function Sidebar({handleCloseMenu, isOpen}) {
                    <PanelLeft onClick={handleCloseMenu} className="cursor-pointer -mr-[0.5px] lg:hidden "/>
                 </div>
             </div>
-            <div className="px-3 flex flex-col gap-2 text-sm mt-3">
+            <div className="px-3 flex flex-col gap-2 text-[16px] mt-3">
                 {
                  menuItems.map((menuItem) => (
                      // <div key={menuItem.title} className="flex">
