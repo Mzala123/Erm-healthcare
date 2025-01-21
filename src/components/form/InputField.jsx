@@ -13,7 +13,7 @@ function InputField({type="text", value, name, onChange, onKeyUp, label, placeho
                     placeholder={placeholder}
                     name={name}
             />
-            {error && <span className="text-red-600">{error}</span>}
+            {error && <span className="text-red-600 text-sm">{error}</span>}
         </div>
     )
 }

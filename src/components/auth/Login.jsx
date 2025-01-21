@@ -14,15 +14,15 @@ function Login(){
             {
                 name:"username",
                 value:"",
-                placeholder:"Enter username",
+                placeholder:"Enter your username",
                 label:"Username",
                 required:true,
-                type:'text',
+                type:'email',
             },
             {
                 name:"password",
                 value:"",
-                placeholder:"Enter password",
+                placeholder:"Enter your password",
                 label:"Password",
                 required:true,
                 type:'password',
@@ -32,30 +32,60 @@ function Login(){
 
     const[loginFields, setLoginFields] = useState(fields)
 
+    function validateField(field){
+        if(field.required && !field.value.trim()){
+            return field.label +" is required"
+        }
+
+        if(field.type === "email" && field.value.trim()) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(field.value)) {
+                return "Please enter a valid email address";
+            }
+        }
+
+        if(field.type === "password" && field.value.trim()){
+            if(field.value.length < 6){
+                return "Password should have at least 6 characters"
+            }
+        }
+
+        return "";
+    }
+
     function handleChange(e){
         const {name, value} = e.target;
-        console.log(name, value);
-        const updatedFields = loginFields.map(field=>{
-            return  {
-                ...field,
-                [name]: value,
-            }
+        const updatedFields = loginFields.map((field)=>{
+           return field.name === name ?
+               {
+                  ...field,
+                  value:value,
+                  error:validateField({...field, value})
+               } : field
         })
-        console.log(updatedFields)
         setLoginFields(updatedFields)
     }
 
-    function handleSubmit(){
+    function handleSubmit(e){
+        e.preventDefault();
+        console.log("You've clicked me");
+        const updatedFields = loginFields.map((field) => ({
+            ...field,
+            error: validateField(field),
+        }));
+        setLoginFields(updatedFields);
+        const hasErrors = updatedFields.some((field) => field.error);
+        if (hasErrors) return;
+
 
     }
 
-
     return (
         <div className="bg-stone-200 h-screen flex justify-center items-center">
-            <div className="flex gap-4 flex-col p-6 rounded-md w-[400px] bg-white">
+            <div className="flex gap-4 flex-col p-6 w-full mx-4 rounded-md md:w-[400px]  bg-white">
                 <h1 className="text-lg text-center font-Poppins_Bold uppercase">EMR Healthcare</h1>
                 {
-                    fields.map((field) => (
+                    loginFields.map((field) => (
                         <div key={field.name}>
                             <InputField
                               name={field.name}
@@ -65,12 +95,13 @@ function Login(){
                               required={field.required}
                               type={field.type}
                               onChange={handleChange}
+                              error={field.error}
                             />
                         </div>
                     ))
                 }
                 <div></div>
-                <Button isLoading={isLoading} type="submit" onClick={handleSubmit}>
+                <Button isLoading={isLoading} onClick={handleSubmit}>
                     Login
                 </Button>
                 <div className="flex justify-center gap-1 text-sm">
