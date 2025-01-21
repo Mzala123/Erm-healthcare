@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
+import PageSpinner from "./PageSpinner.jsx";
 
-function Button({children, onClick, variant="primary"}) {
+function Button({children, onClick, variant="primary", isLoading=false}) {
 
     const variantClasses = {
         primary: "bg-blue-600 hover:bg-blue-700 text-white",
@@ -10,8 +11,12 @@ function Button({children, onClick, variant="primary"}) {
     };
 
     return(
-        <button className={`border-none rounded-md bg-blue-600 px-3 py-2 flex justify-center items-center gap-2 text-sm text-white hover:bg-blue-700  transition-colors ${variantClasses[variant]}`} onClick={onClick}>
-             {children}
+        <button className={`border-none rounded-md px-3 py-2 flex w-full justify-center items-center gap-2 text-sm text-white transition-colors 
+                ${isLoading ? `${variantClasses[variant]} opacity-70` : variantClasses[variant] }`}
+                onClick={onClick}
+                disabled={isLoading}
+        >
+             {isLoading ? <PageSpinner/> : children }
         </button>
     )
 }
@@ -19,6 +24,9 @@ function Button({children, onClick, variant="primary"}) {
 Button.propTypes = {
     children: PropTypes.node,
     onClick: PropTypes.func,
-    variant: PropTypes.oneOf(["primary","secondary","success","danger"])
+    variant: PropTypes.oneOf(["primary","secondary","success","danger"]),
+    isLoading: PropTypes.bool,
+    disabled: PropTypes.bool,
+
 }
 export default Button;

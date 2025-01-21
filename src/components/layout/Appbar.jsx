@@ -1,6 +1,5 @@
 import {PanelRight} from "lucide-react";
 import PropTypes from "prop-types";
-import { DropDown } from "../ui/DropDown.jsx";
 
 function Appbar({handleOpenMenu}){
 
