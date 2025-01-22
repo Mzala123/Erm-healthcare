@@ -20,8 +20,12 @@ const routes = createBrowserRouter(
             path: '/system',
             children: [
                 {
-                    element: <AddPatient/>,
+                    element: <PatientList/>,
                     path: 'patients',
+                },
+                {
+                  element: <AddPatient/>,
+                  path: 'patients/:id'
                 },
                 {
                     element: <PatientList/>,

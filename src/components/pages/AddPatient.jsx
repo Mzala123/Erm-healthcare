@@ -86,9 +86,9 @@ function AddPatient() {
                 value:"",
                 type:'select',
                 label:"Gender",
-                required:false,
+                required:true,
                 isSubmitting: false,
-                width: 12,
+                width: 6,
                 options:genderOptions,
             },
             {

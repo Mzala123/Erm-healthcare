@@ -4,6 +4,8 @@ import {useNavigate} from "react-router-dom";
 import InputField from "./InputField.jsx";
 import {ChevronLeft} from "lucide-react";
 import {useState} from "react";
+import TextArea from "./TextArea.jsx";
+import SelectField from "./SelectField.jsx";
 
 function FormBuilder({formFields=[], onSubmit, title="", isLoading=false}) {
 
@@ -131,6 +133,35 @@ function FormBuilder({formFields=[], onSubmit, title="", isLoading=false}) {
                                        label={field.label}
                                    />
                            </div>
+
+                           case "select":
+                               return <div key={field.name} className={`${getSize(field.width)}`}>
+                                   <SelectField
+                                       name={field.name}
+                                       value={field.value}
+                                       placeholder={field.placeholder}
+                                       onChange={handleChange}
+                                       error={field.error}
+                                       type="text"
+                                       required={field.required}
+                                       label={field.label}
+                                       options={field.options}
+                                   />
+                           </div>
+
+                           case "textarea":
+                               return <div key={field.name} className={`${getSize(field.width)}`}>
+                                   <TextArea
+                                       name={field.name}
+                                       value={field.value}
+                                       placeholder={field.placeholder}
+                                       onChange={handleChange}
+                                       error={field.error}
+                                       type="text"
+                                       required={field.required}
+                                       label={field.label}
+                                   />
+                               </div>
 
                            default : return  null
                        }
