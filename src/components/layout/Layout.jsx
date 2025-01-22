@@ -42,7 +42,7 @@ function Layout() {
            </div>
            <div className="w-full">
                <Appbar handleOpenMenu={handleToggleMenu}/>
-               <div className="bg-slate-100 h-full p-3 transition-all relative top-16 lg:ml-72">
+               <div className="bg-stone-200 h-full p-3 transition-all relative top-16 lg:ml-72">
                     <Outlet/>
                </div>
            </div>

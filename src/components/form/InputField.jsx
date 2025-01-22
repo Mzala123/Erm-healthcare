@@ -5,7 +5,7 @@ function InputField({type="text", value, name, onChange, onKeyUp, label, placeho
     return (
         <div className="flex flex-col gap-2">
             <label htmlFor="" className="text-black text-sm font-semibold">{label} {required && <span className="text-red-600">*</span>} </label>
-            <input  className={`bg-white border-[1.5px]  ${error ? 'border-red-600' : `border-slate-600`} text-sm rounded-md px-3 py-2 hover:ring-2 hover:ring-blue-600`}
+            <input  className={`bg-white border-[1.5px]  ${error ? 'border-red-600' : `border-slate-300`} text-sm rounded-md px-3 py-2 hover:ring-2 hover:ring-blue-600`}
                     type={type}
                     onChange={onChange}
                     value={value}

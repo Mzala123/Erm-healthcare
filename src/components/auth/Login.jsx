@@ -2,11 +2,12 @@ import PageSpinner from "../ui/PageSpinner.jsx";
 import InputField from "../form/InputField.jsx";
 import {useMemo, useState} from "react";
 import Button from "../ui/Button.jsx";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 function Login(){
 
 
+    const navigate = useNavigate();
     const[isLoading, setIsLoading] = useState(false);
 
     const fields= useMemo(()=>(
@@ -34,7 +35,7 @@ function Login(){
 
     function validateField(field){
         if(field.required && !field.value.trim()){
-            return field.label +" is required"
+            return field.name +" is required"
         }
 
         if(field.type === "email" && field.value.trim()) {
@@ -46,7 +47,7 @@ function Login(){
 
         if(field.type === "password" && field.value.trim()){
             if(field.value.length < 6){
-                return "Password should have at least 6 characters"
+                return "password should have at least 6 characters"
             }
         }
 
@@ -67,8 +68,9 @@ function Login(){
     }
 
     function handleSubmit(e){
+
         e.preventDefault();
-        console.log("You've clicked me");
+
         const updatedFields = loginFields.map((field) => ({
             ...field,
             error: validateField(field),
@@ -76,6 +78,15 @@ function Login(){
         setLoginFields(updatedFields);
         const hasErrors = updatedFields.some((field) => field.error);
         if (hasErrors) return;
+        let formData = {}
+        for(let field of loginFields){
+            formData[field.name] = field.value;
+        }
+        setIsLoading(true);
+        setTimeout(()=>{
+            setIsLoading(false);
+            navigate("/system");
+        }, 2000)
 
 
     }
@@ -84,28 +95,30 @@ function Login(){
         <div className="bg-stone-200 h-screen flex justify-center items-center">
             <div className="flex gap-4 flex-col p-6 w-full mx-4 rounded-md md:w-[400px]  bg-white">
                 <h1 className="text-lg text-center font-Poppins_Bold uppercase">EMR Healthcare</h1>
-                {
-                    loginFields.map((field) => (
-                        <div key={field.name}>
-                            <InputField
-                              name={field.name}
-                              value={field.value}
-                              placeholder={field.placeholder}
-                              label={field.label}
-                              required={field.required}
-                              type={field.type}
-                              onChange={handleChange}
-                              error={field.error}
-                            />
-                        </div>
-                    ))
-                }
-                <div></div>
-                <Button isLoading={isLoading} onClick={handleSubmit}>
-                    Login
-                </Button>
+                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                    {
+                        loginFields.map((field) => (
+                            <div key={field.name}>
+                                <InputField
+                                    name={field.name}
+                                    value={field.value}
+                                    placeholder={field.placeholder}
+                                    label={field.label}
+                                    required={field.required}
+                                    type={field.type}
+                                    onChange={handleChange}
+                                    error={field.error}
+                                />
+                            </div>
+                        ))
+                    }
+                    <div></div>
+                    <Button isLoading={isLoading} onClick={handleSubmit}>
+                        Login
+                    </Button>
+                </form>
                 <div className="flex justify-center gap-1 text-sm">
-                    <span>Don't have an account?</span> <Link to="/login" className="text-blue-600 underline font-semibold">Register</Link>
+                    <span>Don't have an account?</span> <Link to="/register" className="text-blue-600 underline font-semibold">Register</Link>
                 </div>
             </div>
         </div>

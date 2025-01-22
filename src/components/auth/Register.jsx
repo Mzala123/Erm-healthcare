@@ -1,8 +1,7 @@
 function Register() {
     return (
-        <div className="flex">
-            <div className>
-                <div>image</div>
+        <div className="flex container mx-auto ">
+            <div className={"bg-amber-50"}>
                 <div>form</div>
             </div>
         </div>

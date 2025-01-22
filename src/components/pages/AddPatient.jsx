@@ -6,8 +6,6 @@ import {isPrimary} from "../../lib/utils.js";
 function AddPatient() {
 
     const params = useParams();
-    console.log(params.id);
-
     const primaryKey = isPrimary(params.id)
 
     const genderOptions =  useMemo(()=>(
@@ -69,7 +67,6 @@ function AddPatient() {
               type:'text',
               label:"Firstname",
               required:true,
-              isSubmitting: false,
               width: 12
             },
             {
@@ -133,9 +130,8 @@ function AddPatient() {
       <div>
          <FormBuilder
              formFields={patientForm}
-             formTitle= {`${primaryKey ? 'Edit patient' : 'Add Patient'}`}
-             onSubmit={handleSubmit}
-
+             title="Create Patient"
+             // onSubmit={handleSubmit}
          />
       </div>
   )
