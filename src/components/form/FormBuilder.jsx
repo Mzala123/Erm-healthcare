@@ -29,8 +29,22 @@ function FormBuilder({formFields=[], onSubmit, title=""}) {
 
     function handleSubmit(e) {
         e.preventDefault();
+        const formData = {}
+        for(let field of fields){
+            formData[field.name] = field.value;
+        }
+        console.log(formData);
     }
 
+    function handleReset(e){
+        e.preventDefault();
+        setFields(fields.map((field)=>{
+            return  {
+                ...field,
+                value: ""
+            }
+        }));
+    }
 
     return(
         <div className="bg-white mt-3 container rounded-md p-6 mx-auto w-auto lg:w-[720px] lg:mx-auto ">
@@ -70,11 +84,13 @@ function FormBuilder({formFields=[], onSubmit, title=""}) {
                                        label={field.label}
                                    />
                            </div>
+
+                           default : return  null
                        }
                     })
                 }
                 <div className="flex gap-4 justify-end">
-                    <Button variant="danger" type="reset">Clear</Button>
+                    <Button variant="danger" type="reset" onClick={handleReset}>Clear</Button>
                     <Button>Submit</Button>
                 </div>
             </form>
