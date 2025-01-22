@@ -1,4 +1,4 @@
-import {useMemo} from "react";
+import {useMemo, useState} from "react";
 import FormBuilder from "../form/FormBuilder.jsx";
 import {useParams} from "react-router-dom";
 import {isPrimary} from "../../lib/utils.js";
@@ -7,6 +7,8 @@ function AddPatient() {
 
     const params = useParams();
     const primaryKey = isPrimary(params.id)
+
+    const [isLoading, setIsLoading] = useState(false);
 
     const genderOptions =  useMemo(()=>(
         [
@@ -84,7 +86,7 @@ function AddPatient() {
                 value:"",
                 type:'select',
                 label:"Gender",
-                required:true,
+                required:false,
                 isSubmitting: false,
                 width: 12,
                 options:genderOptions,
@@ -104,7 +106,7 @@ function AddPatient() {
                 value:"",
                 type:'select',
                 label:"Occupation",
-                required:true,
+                required:false,
                 isSubmitting: false,
                 width: 12,
                 options:occupationOptions,
@@ -123,15 +125,21 @@ function AddPatient() {
     ), [genderOptions, occupationOptions])
 
     function handleSubmit(formData) {
-      console.log("You clicked me");
+      setIsLoading(true);
+      setTimeout(()=>{
+          console.log(formData);
+          setIsLoading(false);
+      }, 2000)
 
     }
+
   return (
       <div>
          <FormBuilder
              formFields={patientForm}
-             title="Create Patient"
-             // onSubmit={handleSubmit}
+             title="Add Patient"
+             onSubmit={handleSubmit}
+             isLoading={isLoading}
          />
       </div>
   )

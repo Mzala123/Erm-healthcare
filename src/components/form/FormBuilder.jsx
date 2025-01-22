@@ -5,13 +5,15 @@ import InputField from "./InputField.jsx";
 import {ChevronLeft} from "lucide-react";
 import {useState} from "react";
 
-function FormBuilder({formFields=[], onSubmit, title=""}) {
+function FormBuilder({formFields=[], onSubmit, title="", isLoading=false}) {
 
     const navigate = useNavigate();
     const [fields, setFields] = useState(formFields);
 
     function validateField(field) {
-
+        if(field.required && !field.value.trim()){
+            return field.label +" is required";
+        }
     }
 
     function handleChange(e){
@@ -20,7 +22,8 @@ function FormBuilder({formFields=[], onSubmit, title=""}) {
             return prevState.map((field)=>{
                 return field.name === name ? {
                     ...field,
-                    value: value
+                    value: value,
+                    error:validateField({...field, value})
                 } : field
             })
         });
@@ -29,11 +32,24 @@ function FormBuilder({formFields=[], onSubmit, title=""}) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        const formData = {}
-        for(let field of fields){
-            formData[field.name] = field.value;
+        const changedFields = fields.map((field) => ({
+            ...field,
+            error: validateField(field),
+        }));
+        console.log(changedFields);
+        setFields(changedFields);
+        const hasError = changedFields.some((field) => field.error);
+        console.log(hasError);
+        if (hasError) return
+        if(!hasError){
+            const formData = {}
+            for(let field of fields){
+                formData[field.name] = field.value;
+            }
+            //console.log(formData);
+            onSubmit(formData);
         }
-        console.log(formData);
+
     }
 
     function handleReset(e){
@@ -46,6 +62,37 @@ function FormBuilder({formFields=[], onSubmit, title=""}) {
         }));
     }
 
+    function getSize(size){
+        switch(size){
+            case 1:
+                return `col-span-12 md:col-span-1`
+            case 2:
+                return `col-span-12 md:col-span-2`
+            case 3:
+                return `col-span-12 md:col-span-3`
+            case 4:
+                return `col-span-12 md:col-span-4`
+            case 5:
+                return `col-span-12 md:col-span-5`
+            case 6:
+                return `col-span-12 md:col-span-6`
+            case 7:
+                return `col-span-12 md:col-span-7`
+            case 8:
+                return `col-span-12 md:col-span-8`
+            case 9:
+                return `col-span-12 md:col-span-9`
+            case 10:
+                return `col-span-12 md:col-span-10`
+            case 11:
+                return `col-span-12 md:col-span-11`
+            case 12:
+                return `col-span-12 md:col-span-12`
+
+        }
+        //return `col-span-12 md:col-span-${Math.min(size, 12)}`
+    }
+
     return(
         <div className="bg-white mt-3 container rounded-md p-6 mx-auto w-auto lg:w-[720px] lg:mx-auto ">
             <div className="flex gap-4 w-full items-center mb-8">
@@ -54,12 +101,12 @@ function FormBuilder({formFields=[], onSubmit, title=""}) {
                 </button>
                 <p className="flex-1 font-Poppins_Bold text-3xl text-gray-800">{title}</p>
             </div>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+            <form onSubmit={handleSubmit} className="grid grid-cols-12 gap-6">
                 {
                     fields.map((field) => {
                        switch(field.type){
                            case "email":
-                           return <div key={field.name}>
+                           return <div key={field.name} className={`${getSize(field.width)}`}>
                                <InputField
                                  name={field.name}
                                  value={field.value}
@@ -72,7 +119,7 @@ function FormBuilder({formFields=[], onSubmit, title=""}) {
                                />
                            </div>
                            case "text":
-                               return <div key={field.name}>
+                               return <div key={field.name} className={`${getSize(field.width)}`}>
                                    <InputField
                                        name={field.name}
                                        value={field.value}
@@ -89,9 +136,9 @@ function FormBuilder({formFields=[], onSubmit, title=""}) {
                        }
                     })
                 }
-                <div className="flex gap-4 justify-end">
+                <div className="flex col-span-12 gap-4 justify-end">
                     <Button variant="danger" type="reset" onClick={handleReset}>Clear</Button>
-                    <Button>Submit</Button>
+                    <Button isLoading={isLoading} disabled={isLoading}>Submit</Button>
                 </div>
             </form>
 
@@ -102,6 +149,8 @@ function FormBuilder({formFields=[], onSubmit, title=""}) {
 FormBuilder.propTypes = {
     formFields: PropTypes.array,
     title: PropTypes.string,
+    onSubmit: PropTypes.func,
+    isLoading : PropTypes.bool,
 }
 
 export default FormBuilder;

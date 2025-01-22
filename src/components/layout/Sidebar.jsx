@@ -22,12 +22,16 @@ function Sidebar({handleCloseMenu, isOpen}) {
                 {
                  menuItems.map((menuItem) => {
                      const isActive = location.pathname === menuItem.path
-                     // console.log(location.pathname," ", menuItem.path)
-                     return <Link key={menuItem.title}  className={`flex gap-4 items-center p-2 border-l-2 border-transparent hover:text-black hover:border-l-2 hover:border-blue-700 hover:bg-stone-100 
-                     ${isActive ? "border-l-2 border-blue-700 bg-stone-100 text-blue-700" : ""}`}
-                                    to={`/system/${menuItem.path}`} >
-                         <span>{menuItem.icon}</span>{menuItem.title}
-                     </Link>
+                     console.log(location.pathname," ", menuItem.path)
+                     return <div key={menuItem.title} className="flex gap-1 items-center">
+                         <div className={`${isActive ? "bg-blue-700" : ""} h-5 w-[3px] rounded-2xl`}></div>
+                         <Link key={menuItem.title} className={`flex flex-1 gap-4 items-center py-1 px-2 rounded-md hover:text-blue-700 hover:bg-stone-100 
+                             ${isActive ? "rounded-md bg-stone-100 text-blue-700" : ""}`}
+                               to={`${menuItem.path}`}>
+                             <div className="flex gap-2 items-center"><span>{menuItem.icon}</span>{menuItem.title}</div>
+                         </Link>
+                     </div>
+
                  })
                 }
 
