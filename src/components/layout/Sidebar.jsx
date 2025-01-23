@@ -22,7 +22,7 @@ function Sidebar({handleCloseMenu, isOpen}) {
                 {
                  menuItems.map((menuItem) => {
                      const isActive = location.pathname === menuItem.path
-                     console.log(location.pathname," ", menuItem.path)
+                     //console.log(location.pathname," ", menuItem.path)
                      return <div key={menuItem.title} className="flex gap-1 items-center">
                          <div className={`${isActive ? "bg-blue-700" : ""} h-5 w-[3px] rounded-2xl`}></div>
                          <Link key={menuItem.title} className={`flex flex-1 gap-4 items-center py-1 px-2 rounded-md hover:text-blue-700 hover:bg-stone-100 
