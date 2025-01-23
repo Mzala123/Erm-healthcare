@@ -6,49 +6,49 @@ import {useEffect, useRef, useState} from "react";
 
 function Layout() {
 
-    const[isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
     const sideBarRef = useRef(null);
 
-    function handleToggleMenu(){
+    function handleToggleMenu() {
         setIsOpen(!isOpen);
     }
 
-    function handleClickAway(e){
-        if(sideBarRef.current && !sideBarRef.current.contains(e.target)){
+    function handleClickAway(e) {
+        if (sideBarRef.current && !sideBarRef.current.contains(e.target)) {
             setIsOpen(false);
         }
     }
 
 
     useEffect(() => {
-        if(isOpen){
+        if (isOpen) {
             document.addEventListener("mousedown", handleClickAway);
-        }else{
+        } else {
             document.addEventListener("mousedown", handleClickAway);
         }
 
-        return ()=>{
+        return () => {
             document.removeEventListener("mousedown", handleClickAway);
         }
 
-    },[isOpen])
+    }, [isOpen])
 
 
-   return (
-       <div className="flex h-screen w-full relative">
-           <div className="" ref={sideBarRef}>
-               <Sidebar handleCloseMenu={handleToggleMenu} isOpen={isOpen} />
-           </div>
-           <div className="w-full">
-               <Appbar handleOpenMenu={handleToggleMenu}/>
-               <div className="bg-stone-200 h-full p-3 transition-all relative top-16 lg:ml-72">
+    return (
+        <div className="flex h-screen w-full relative">
+            <div className="" ref={sideBarRef}>
+                <Sidebar handleCloseMenu={handleToggleMenu} isOpen={isOpen}/>
+            </div>
+            <div className="flex w-full h-screen">
+                <Appbar handleOpenMenu={handleToggleMenu}/>
+                <div className="flex flex-1 p-4 transition-all relative pt-20 lg:ml-72">
                     <Outlet/>
-               </div>
-           </div>
+                </div>
+            </div>
 
-       </div>
-   )
+        </div>
+    )
 }
 
 export default Layout;

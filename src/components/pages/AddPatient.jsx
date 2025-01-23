@@ -88,7 +88,7 @@ function AddPatient() {
                 label:"Gender",
                 required:true,
                 isSubmitting: false,
-                width: 6,
+                width: 12,
                 options:genderOptions,
             },
             {
@@ -134,7 +134,7 @@ function AddPatient() {
     }
 
   return (
-      <div>
+      <div className="mx-auto">
          <FormBuilder
              formFields={patientForm}
              title="Add Patient"

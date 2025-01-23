@@ -23,22 +23,21 @@ function PatientList() {
     }
 
      return (
-         <div className="mx-auto w-full">
-             <div className="flex flex-col gap-4">
+         <div className="flex flex-1 flex-col h-full mx-auto w-full">
+             <div className="flex flex-1 h-full flex-col gap-4">
                  <div className="flex justify-end">
                      <Button onClick={()=>navigate("/system/patients/+")}>
                         <ShieldPlus size={20} />
                         <span>Add Patient</span>
                      </Button>
                  </div>
-                 <div className="bg-white rounded-md">
+                 <div className="flex flex-1 overflow-y-auto">
                      <DataTable
                          title="Patients Report"
                          description="A patient report listing all registered patients."
                      />
                  </div>
              </div>
-
          </div>
      )
 }

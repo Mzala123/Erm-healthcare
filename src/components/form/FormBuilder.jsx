@@ -96,7 +96,7 @@ function FormBuilder({formFields=[], onSubmit, title="", isLoading=false}) {
     }
 
     return(
-        <div className="bg-white mt-3 container rounded-md p-6 mx-auto w-auto lg:w-[720px] lg:mx-auto ">
+        <div className="bg-white mt-3 container rounded-md p-6 mx-auto lg:w-[720px] lg:mx-auto ">
             <div className="flex gap-4 w-full items-center mb-8">
                 <button className={"rounded-full bg-slate-100 hover:bg-slate-200"} onClick={()=>{navigate(-1)}}>
                    <ChevronLeft className={"size-6 m-1 stroke-black stroke-2"} size="lg" />
