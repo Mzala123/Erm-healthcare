@@ -7,10 +7,7 @@ import {useEffect, useState} from "react";
 function DataTable({title="", description = "", data=[], columnHeaders=[]}) {
 
      const[seachItem, setSeachItem] = useState("");
-
-     let filteredData = []
-
-     filteredData = data.filter(foundItem => {
+      const filteredData = data.filter(foundItem => {
          return columnHeaders.some(colHeader => {
              const isFilterable = colHeader.filterable ?? true
              if(isFilterable){

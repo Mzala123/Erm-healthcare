@@ -27,7 +27,6 @@ function PatientList() {
         // {key: "address[street]", title: "Address", width: 300, DataType: "string"},
         // {key: "gender", title: "Gender", width: 300, DataType: "string"},
     ]
-
     //console.log(users[0].address.street);
 
     useEffect(() => {
