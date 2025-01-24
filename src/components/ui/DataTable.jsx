@@ -4,7 +4,7 @@ import InputField from "../form/InputField.jsx";
 import {useEffect, useState} from "react";
 
 
-function DataTable({title="", description = "", data=[], columnHeaders=[]}) {
+function DataTable({title="", description = "", data=[], columnHeaders=[], rowPrimaryKey}) {
 
      const[seachItem, setSeachItem] = useState("");
       const filteredData = data.filter(foundItem => {
@@ -49,9 +49,8 @@ function DataTable({title="", description = "", data=[], columnHeaders=[]}) {
                     <tbody className="">
                         {
                             data.length > 0 ?
-
                                 (filteredData.map(rowData => {
-                                return <tr key={rowData.id} className="border-b border-stone-200">
+                                return <tr key={rowData[rowPrimaryKey]} className="border-b border-stone-200">
                                     {
                                         columnHeaders.map((colHeader) => {
                                             return <td key={colHeader.key} className="py-3 border-r border-stone-200 px-2 text-sm">
@@ -76,6 +75,7 @@ DataTable.propTypes = {
     description: PropTypes.string,
     columnHeaders: PropTypes.array,
     data: PropTypes.array,
+    rowPrimaryKey: PropTypes.string,
 }
 
 export default DataTable;

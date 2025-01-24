@@ -134,7 +134,7 @@ function AddPatient() {
     }
 
   return (
-      <div className="mx-auto">
+      <div className="mx-auto w-full">
          <FormBuilder
              formFields={patientForm}
              title="Add Patient"

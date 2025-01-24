@@ -48,6 +48,7 @@ function PatientList() {
                          description="A patient report listing all registered patients."
                          data={users}
                          columnHeaders={columnHeaders}
+                         rowPrimaryKey={"id"}
                      />
                  </div>
              </div>
