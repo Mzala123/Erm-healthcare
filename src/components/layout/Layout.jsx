@@ -40,9 +40,9 @@ function Layout() {
             <div className="" ref={sideBarRef}>
                 <Sidebar handleCloseMenu={handleToggleMenu} isOpen={isOpen}/>
             </div>
-            <div className="flex w-full h-screen">
+            <div className="flex w-full h-screen bg-white">
                 <Appbar handleOpenMenu={handleToggleMenu}/>
-                <div className="flex flex-1 p-4 transition-all relative pt-20 lg:ml-72">
+                <div className="flex flex-1 py-4 px-2 transition-all relative pt-20 lg:ml-72">
                     <Outlet/>
                 </div>
             </div>
