@@ -24,7 +24,8 @@ function PatientList() {
         {key: "name", title: "Full name", width: 300, DataType: "string", filterable: true},
         {key: "username", title: "Username", width: 300, DataType: "string", filterable: true},
         {key: "email", title: "Email", width: 300, DataType: "string", filterable: true},
-        // {key: "address[street]", title: "Address", width: 300, DataType: "string"},
+        {key: "address.street", title: "Address", width: 300, DataType: "string"},
+        {key: "address.geo.lat", title: "Latitude", width: 300, DataType: "string"},
         // {key: "gender", title: "Gender", width: 300, DataType: "string"},
     ]
     //console.log(users[0].address.street);
