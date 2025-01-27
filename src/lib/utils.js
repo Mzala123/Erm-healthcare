@@ -5,6 +5,7 @@ export function isPrimary(key) {
 
 export function flattenArray(headers = [], rows = []) {
     const keys = headers.map(item => (item.key)).filter(item => item.includes("."));
+    console.log(keys)
 
     return rows.map((row) => {
         const nestedObjects = {}
@@ -17,6 +18,7 @@ export function flattenArray(headers = [], rows = []) {
                 } else {
                     colValue = colValue[nestedKey] || undefined;
                 }
+                console.log(nestedKey,colValue)
             })
             nestedObjects[key] = colValue;
         })
