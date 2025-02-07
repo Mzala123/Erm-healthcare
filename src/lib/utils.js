@@ -49,7 +49,7 @@ export function paginationHandler(currentPage, totalNumberPages) {
     const firstItem = pages[0] || undefined;
     const lastItem = pages[pages.length - 1] || undefined;
 
-    if(firstItem && (firstItem.label === "..." ||  lastItem.value !== 1)){
+    if(firstItem && (firstItem.label === "..." ||  firstItem.value !== 1)){
         pages.unshift({label:1,value:1})
     }
 

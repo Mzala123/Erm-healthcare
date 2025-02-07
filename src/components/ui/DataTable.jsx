@@ -1,21 +1,21 @@
 import PropTypes from "prop-types";
 import InputField from "../form/InputField.jsx";
 // import {faker} from "@faker-js/faker"
-import {useEffect, useMemo, useState} from "react";
+import {useMemo, useState} from "react";
 import {flattenArray, paginationHandler} from "../../lib/utils.js";
-import button from "./Button.jsx";
 import PageSpinner from "./PageSpinner.jsx";
 
 
-function DataTable({title = "", description = "", data = [], columnHeaders = [], rowPrimaryKey, actions=[], isLoading = false}) {
+const limits = [10, 20, 50]
+
+function DataTable({title = "", description = "", data = [], columnHeaders = [], rowPrimaryKey, actions=[], isLoading = false, paginate, onPageChange, onLimitChange}) {
 
     const [searchItem, setSearchItem] = useState("");
 
     const rows = useMemo(() => flattenArray(columnHeaders, data), [columnHeaders, data]);
-
     const paginationPages = useMemo(()=>{
-        return paginationHandler(5, 10)
-    }, [])
+        return paginationHandler(paginate.page, paginate.totalPages)
+    }, [paginate.page, paginate.totalPages])
 
     const filteredData = useMemo(()=>{
         return rows.filter(foundItem => {
@@ -98,11 +98,20 @@ function DataTable({title = "", description = "", data = [], columnHeaders = [],
                     )
                 }
             </div>
-            <div className="flex justify-end">
+            <div className="flex justify-between border-b border-r border-l border-stone-200 rounded-b-md relative -top-2.5 p-2">
+                <div>
+                    {
+                        limits.map((limit, index)=> {
+                            return <button onClick={()=>onLimitChange(limit)} className={`px-3 py-1 text-sm rounded-md hover:bg-stone-200`} key={index}>
+                                {limit}
+                            </button>
+                        })
+                    }
+                </div>
                 <div className="flex gap-1 items-center">
                     {
                         paginationPages.map((page) => {
-                            return <button className={`hover:bg-stone-100 px-3 py-1 text-sm rounded ${page.isActive ? "border border-stone-300 font-Poppins_Bold" : ""}`} key={page.value}>
+                            return <button onClick={() => onPageChange(page.value)} className={`hover:bg-stone-200 px-3 py-1 text-sm rounded ${page.isActive ? "border border-stone-300 font-Poppins_Bold" : ""}`} key={page.value}>
                                 {page.label}
                             </button>
                         })
@@ -126,6 +135,12 @@ DataTable.propTypes = {
 
 export default DataTable;
 
+DataTable.propTypes = {
+    paginate: PropTypes.object,
+    onPageChange: PropTypes.func,
+    onLimitChange: PropTypes.func,
+}
+
 
 function ButtonActions({actions, rowData}) {
 
@@ -139,3 +154,8 @@ function ButtonActions({actions, rowData}) {
         }
     </div>
 }
+
+// ButtonActions.propTypes = {
+//     actions: PropTypes.array,
+//     rowData: PropTypes.array,
+// }

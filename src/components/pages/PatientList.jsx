@@ -1,30 +1,38 @@
 import Button from "../ui/Button.jsx";
-import InputField from "../form/InputField.jsx";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import DataTable from "../ui/DataTable.jsx";
-import {Pencil, Plus, PlusSquare, ShieldPlus, Trash} from "lucide-react";
+import {Pencil, ShieldPlus, Trash} from "lucide-react";
 import axios from "axios";
-import {tr} from "@faker-js/faker";
+
 
 function PatientList() {
     const navigate = useNavigate();
 
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [paginate, setPaginate] = useState({
+        page: 1,
+        limit: 20,
+        totalPages: 0,
+    })
 
-    function getUsers(){
+
+
+    function getUsers(page, limit){
         setIsLoading(true);
-        setTimeout(()=>{
-            axios.get("http://localhost:3000/api/customers").then((response)=>{
-                setUsers(response.data);
+            axios.get(`http://localhost:3000/api/customers?page=${page}&limit=${limit}`).then((response)=>{
+                setUsers(response.data.data);
+                setPaginate({
+                    page: response.data.currentPage,
+                    limit: response.data.perPage,
+                    totalPages: response.data.totalPages,
+                })
             }).catch((error)=>{
                 console.log(error);
             }).finally(()=>{
                 setIsLoading(false);
             })
-        }, 2000)
-
     }
 
     console.log(users);
@@ -51,8 +59,8 @@ function PatientList() {
     ]
 
     useEffect(() => {
-         getUsers()
-    }, []);
+         getUsers(paginate.page, paginate.limit)
+    }, [paginate.page, paginate.limit]);
 
      return (
          <div className="bg-white p-4 rounded-md flex flex-1 flex-col h-full mx-auto w-full">
@@ -69,7 +77,7 @@ function PatientList() {
                          description="A patient report listing all registered patients."
                          data={users}
                          columnHeaders={columnHeaders}
-                         rowPrimaryKey={"id"}
+                         rowPrimaryKey={"customerid"}
                          isLoading={isLoading}
                          actions={
                             [
@@ -98,6 +106,24 @@ function PatientList() {
                                 }
                             ]
                          }
+                         paginate={paginate}
+                         onPageChange={(page)=>{
+                             setPaginate((paginate)=>{
+                                return {
+                                    ...paginate,
+                                    page: page
+                                }
+                             });
+                         }}
+                         onLimitChange={(limit)=>{
+                             console.log(limit);
+                             setPaginate((paginate)=>{
+                                 return {
+                                     ...paginate,
+                                     limit: limit
+                                 }
+                             })
+                         }}
                      />
                  </div>
              </div>
